@@ -3,44 +3,96 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>MiniRPC 轻量级高并发 RPC 框架</title>
-  <meta name="description" content="基于 Java 21 和 Netty 的轻量级高并发 RPC 框架。">
+  <title>MiniRPC - Java 21 高并发 RPC 框架</title>
+  <meta name="description" content="MiniRPC 是基于 Java 21、Netty 和自定义二进制协议实现的轻量级高并发 RPC 框架。">
   <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
   <header class="topbar">
-    <div class="brand">
+    <a class="brand" href="#">
       <img src="./minirpc_LOGO.png" alt="MiniRPC logo">
       <span>MiniRPC</span>
-    </div>
-    <nav>
-      <a href="#features">能力</a>
-      <a href="#protocol">协议</a>
-      <a href="#quickstart">运行</a>
-      <a href="https://github.com/CozyOct1/MiniRPC">GitHub</a>
+    </a>
+    <nav aria-label="Primary navigation">
+      <a href="#features">Features</a>
+      <a href="#architecture">Architecture</a>
+      <a href="#quickstart">Quickstart</a>
+      <a class="nav-cta" href="https://github.com/CozyOct1/MiniRPC">GitHub</a>
     </nav>
   </header>
 
   <main>
     <section class="hero">
-      <div class="hero-copy">
-        <p class="eyebrow">Java 21 / Netty / RPC / Observability</p>
-        <h1>MiniRPC 轻量级高并发 RPC 框架</h1>
-        <p class="lead">面向 Java 后端核心能力展示的 RPC 项目，覆盖动态代理、二进制协议、服务注册发现、负载均衡、连接复用、心跳、重试、熔断和 Prometheus 指标。</p>
-        <div class="actions">
-          <a class="primary" href="#quickstart">快速运行</a>
-          <a class="secondary" href="https://github.com/CozyOct1/MiniRPC">查看源码</a>
-        </div>
+      <p class="eyebrow">Java 21 / Netty / Binary Protocol / Prometheus</p>
+      <h1>Lightweight RPC framework for high-concurrency Java services.</h1>
+      <p class="lead">MiniRPC 将远程服务调用、连接复用、负载均衡、超时重试、熔断保护和指标观测收进一个清晰的小型框架，适合学习 Java 后端底层工程与 RPC 核心链路。</p>
+      <div class="actions">
+        <a class="primary" href="#quickstart">快速运行</a>
+        <a class="secondary" href="https://github.com/CozyOct1/MiniRPC">查看源码</a>
       </div>
-      <div class="hero-visual">
-        <img src="./minirpc_LOGO.png" alt="MiniRPC">
+
+      <div class="product-shell" aria-label="MiniRPC runtime dashboard preview">
+        <aside class="sidebar">
+          <div class="sidebar-head">
+            <img src="./minirpc_LOGO.png" alt="">
+            <span>MiniRPC</span>
+          </div>
+          <button class="new-call">New RPC Call</button>
+          <div class="side-label">Services</div>
+          <div class="service active">EchoService <span>9000</span></div>
+          <div class="service">UserService <span>9010</span></div>
+          <div class="service">OrderService <span>9020</span></div>
+          <div class="side-label">Governance</div>
+          <div class="service">Round Robin</div>
+          <div class="service">Circuit Breaker</div>
+        </aside>
+        <section class="console">
+          <div class="console-top">
+            <div>
+              <span class="status-dot"></span>
+              Runtime online
+            </div>
+            <span>JSON / Kryo</span>
+          </div>
+          <div class="trace-card">
+            <div class="trace-title">
+              <span>EchoService.echo("hello")</span>
+              <strong>18 ms</strong>
+            </div>
+            <div class="pipeline">
+              <span>Proxy</span>
+              <span>Encode</span>
+              <span>Netty</span>
+              <span>Decode</span>
+              <span>Invoke</span>
+            </div>
+          </div>
+          <div class="metrics-grid">
+            <div>
+              <span>Requests</span>
+              <strong>12,840</strong>
+            </div>
+            <div>
+              <span>P95 Latency</span>
+              <strong>42 ms</strong>
+            </div>
+            <div>
+              <span>Retries</span>
+              <strong>31</strong>
+            </div>
+          </div>
+          <pre><code>Magic(4)  Version(1)  Serializer(1)
+RequestId(8)  BodyLength(4)  Body(N)
+
+prometheus: http://127.0.0.1:9100/metrics</code></pre>
+        </section>
       </div>
     </section>
 
     <section id="features" class="section">
       <div class="section-head">
         <p class="eyebrow">Feature Set</p>
-        <h2>从调用到治理的完整链路</h2>
+        <h2>One compact framework for RPC transport, routing, and resilience.</h2>
       </div>
       <div class="grid">
         <article>
@@ -70,26 +122,61 @@
       </div>
     </section>
 
-    <section id="protocol" class="section split">
+    <section class="section statement">
       <div>
-        <p class="eyebrow">Protocol</p>
-        <h2>固定协议头解决粘包拆包</h2>
-        <p>MiniRPC 报文头固定 22 字节，包含魔数、版本号、序列化类型、消息类型、请求 ID 和消息体长度。Decoder 在 body 未完整到达时回退 reader index，避免半包误读。</p>
+        <p class="eyebrow">Open Source</p>
+        <h2>代码公开，依赖清晰，适合拆解 RPC 框架的关键路径。</h2>
       </div>
-      <pre><code>Magic(4) | Version(1) | Serializer(1)
+      <div class="trust-grid">
+        <article>
+          <h3>Bring your runtime</h3>
+          <p>只需要 JDK 21 与 Maven，即可编译测试并运行 Echo 示例服务。</p>
+        </article>
+        <article>
+          <h3>No external registry</h3>
+          <p>默认使用本地注册表，注册中心接口可以继续扩展到 Redis、Nacos 或 Zookeeper。</p>
+        </article>
+        <article>
+          <h3>Observable by default</h3>
+          <p>内置 Prometheus text format 指标，便于观察请求量、失败率、重试数与延迟。</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="architecture" class="section split">
+      <div>
+        <p class="eyebrow">Architecture</p>
+        <h2>从代理调用到服务执行，每一步都可追踪。</h2>
+        <p>客户端通过 JDK Proxy 生成请求，连接池复用 Netty Channel，二进制协议负责帧边界，服务端使用虚拟线程执行业务方法，并将结果按相同协议返回。</p>
+        <div class="flow">
+          <span>Client Proxy</span>
+          <span>Load Balancer</span>
+          <span>Netty Channel</span>
+          <span>Virtual Thread</span>
+        </div>
+      </div>
+      <div class="protocol-card">
+        <span class="card-label">22-byte header</span>
+        <pre><code>Magic(4) | Version(1) | Serializer(1)
 MessageType(1) | Reserved(1)
 RequestId(8) | BodyLength(4)
 Reserved(2) | Body(N)</code></pre>
+      </div>
     </section>
 
     <section id="quickstart" class="section terminal">
       <p class="eyebrow">Quickstart</p>
-      <h2>本地启动</h2>
+      <h2>Clone, test, run.</h2>
       <pre><code>mvn test
 mvn -q -DskipTests package
 java -jar target/minirpc-1.0.0.jar</code></pre>
       <p>示例服务监听 <code>127.0.0.1:9000</code>，指标暴露在 <code>http://127.0.0.1:9100/metrics</code>。</p>
     </section>
   </main>
+
+  <footer>
+    <span>© 2026 MiniRPC</span>
+    <a href="https://github.com/CozyOct1/MiniRPC">GitHub</a>
+  </footer>
 </body>
 </html>
