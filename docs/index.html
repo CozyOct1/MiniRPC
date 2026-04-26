@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MiniRPC 轻量级高并发 RPC 框架</title>
+  <meta name="description" content="基于 Java 21 和 Netty 的轻量级高并发 RPC 框架。">
+  <link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <img src="./minirpc_LOGO.png" alt="MiniRPC logo">
+      <span>MiniRPC</span>
+    </div>
+    <nav>
+      <a href="#features">能力</a>
+      <a href="#protocol">协议</a>
+      <a href="#quickstart">运行</a>
+      <a href="https://github.com/CozyOct1/MiniRPC">GitHub</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">Java 21 / Netty / RPC / Observability</p>
+        <h1>MiniRPC 轻量级高并发 RPC 框架</h1>
+        <p class="lead">面向 Java 后端核心能力展示的 RPC 项目，覆盖动态代理、二进制协议、服务注册发现、负载均衡、连接复用、心跳、重试、熔断和 Prometheus 指标。</p>
+        <div class="actions">
+          <a class="primary" href="#quickstart">快速运行</a>
+          <a class="secondary" href="https://github.com/CozyOct1/MiniRPC">查看源码</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <img src="./minirpc_LOGO.png" alt="MiniRPC">
+      </div>
+    </section>
+
+    <section id="features" class="section">
+      <div class="section-head">
+        <p class="eyebrow">Feature Set</p>
+        <h2>从调用到治理的完整链路</h2>
+      </div>
+      <div class="grid">
+        <article>
+          <h3>动态代理</h3>
+          <p>通过 JDK Proxy 将接口方法调用转换为 RPC 请求，消费者像调用本地方法一样调用远程服务。</p>
+        </article>
+        <article>
+          <h3>Netty 长连接</h3>
+          <p>客户端连接池复用 Channel，服务端通过 Netty pipeline 完成高吞吐收发与编解码。</p>
+        </article>
+        <article>
+          <h3>Virtual Threads</h3>
+          <p>业务方法执行默认交给 Java 21 虚拟线程，降低高并发阻塞调用下的线程成本。</p>
+        </article>
+        <article>
+          <h3>服务发现</h3>
+          <p>内置本地注册表，抽象接口可扩展 Redis、Nacos、Zookeeper 等注册中心。</p>
+        </article>
+        <article>
+          <h3>负载均衡</h3>
+          <p>支持随机、轮询和一致性 Hash，适配普通调用和需要路由稳定性的场景。</p>
+        </article>
+        <article>
+          <h3>容错观测</h3>
+          <p>提供超时、重试、熔断与 Prometheus 指标，输出请求量、失败率、重试数和 P95 延迟。</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="protocol" class="section split">
+      <div>
+        <p class="eyebrow">Protocol</p>
+        <h2>固定协议头解决粘包拆包</h2>
+        <p>MiniRPC 报文头固定 22 字节，包含魔数、版本号、序列化类型、消息类型、请求 ID 和消息体长度。Decoder 在 body 未完整到达时回退 reader index，避免半包误读。</p>
+      </div>
+      <pre><code>Magic(4) | Version(1) | Serializer(1)
+MessageType(1) | Reserved(1)
+RequestId(8) | BodyLength(4)
+Reserved(2) | Body(N)</code></pre>
+    </section>
+
+    <section id="quickstart" class="section terminal">
+      <p class="eyebrow">Quickstart</p>
+      <h2>本地启动</h2>
+      <pre><code>mvn test
+mvn -q -DskipTests package
+java -jar target/minirpc-1.0.0.jar</code></pre>
+      <p>示例服务监听 <code>127.0.0.1:9000</code>，指标暴露在 <code>http://127.0.0.1:9100/metrics</code>。</p>
+    </section>
+  </main>
+</body>
+</html>
