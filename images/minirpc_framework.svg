@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="620" viewBox="0 0 1120 620" role="img" aria-labelledby="title desc">
+  <title id="title">MiniRPC Architecture</title>
+  <desc id="desc">MiniRPC client, registry, transport, server, metrics and fault tolerance architecture.</desc>
+  <defs>
+    <style>
+      .bg { fill: #ffffff; }
+      .band { fill: #f6f8fb; stroke: #d8dee8; stroke-width: 1.5; }
+      .box { fill: #ffffff; stroke: #9aa6b2; stroke-width: 1.5; rx: 8; }
+      .primary { fill: #0f766e; }
+      .blue { fill: #2563eb; }
+      .text { fill: #151515; font-family: Arial, sans-serif; font-size: 18px; font-weight: 700; }
+      .small { fill: #5d6470; font-family: Arial, sans-serif; font-size: 14px; }
+      .arrow { stroke: #334155; stroke-width: 2.2; fill: none; marker-end: url(#arrowhead); }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <path d="M0,0 L10,4 L0,8 Z" fill="#334155"/>
+    </marker>
+  </defs>
+  <rect class="bg" width="1120" height="620"/>
+
+  <rect class="band" x="36" y="42" width="316" height="502" rx="12"/>
+  <rect class="band" x="402" y="42" width="316" height="502" rx="12"/>
+  <rect class="band" x="768" y="42" width="316" height="502" rx="12"/>
+
+  <text class="text" x="64" y="82">Consumer Side</text>
+  <text class="text" x="430" y="82">RPC Core</text>
+  <text class="text" x="796" y="82">Provider Side</text>
+
+  <rect class="box" x="72" y="116" width="244" height="62"/>
+  <text class="text" x="96" y="153">Service Interface</text>
+  <text class="small" x="96" y="171">EchoService</text>
+
+  <rect class="box" x="72" y="214" width="244" height="62"/>
+  <text class="text" x="96" y="251">JDK Dynamic Proxy</text>
+
+  <rect class="box" x="72" y="312" width="244" height="62"/>
+  <text class="text" x="96" y="349">RpcClient</text>
+
+  <rect class="box" x="438" y="112" width="244" height="62"/>
+  <text class="text" x="462" y="149">Service Registry</text>
+  <text class="small" x="462" y="167">Local / Redis / Nacos</text>
+
+  <rect class="box" x="438" y="210" width="244" height="62"/>
+  <text class="text" x="462" y="247">Load Balancer</text>
+  <text class="small" x="462" y="265">Random / RoundRobin / Hash</text>
+
+  <rect class="box" x="438" y="308" width="244" height="62"/>
+  <text class="text" x="462" y="345">Connection Pool</text>
+  <text class="small" x="462" y="363">Netty Channel reuse</text>
+
+  <rect class="box" x="438" y="406" width="244" height="62"/>
+  <text class="text" x="462" y="443">Protocol Codec</text>
+  <text class="small" x="462" y="461">Magic / RequestId / Body</text>
+
+  <rect class="box" x="804" y="116" width="244" height="62"/>
+  <text class="text" x="828" y="153">RpcServer</text>
+  <text class="small" x="828" y="171">Netty bootstrap</text>
+
+  <rect class="box" x="804" y="214" width="244" height="62"/>
+  <text class="text" x="828" y="251">Virtual Threads</text>
+  <text class="small" x="828" y="269">Business executor</text>
+
+  <rect class="box" x="804" y="312" width="244" height="62"/>
+  <text class="text" x="828" y="349">Service Provider</text>
+  <text class="small" x="828" y="367">Method invocation</text>
+
+  <rect class="box" x="804" y="410" width="244" height="62"/>
+  <text class="text" x="828" y="447">Prometheus Metrics</text>
+  <text class="small" x="828" y="465">QPS / P95 / failures</text>
+
+  <path class="arrow" d="M194 178 V214"/>
+  <path class="arrow" d="M194 276 V312"/>
+  <path class="arrow" d="M316 343 H438"/>
+  <path class="arrow" d="M560 174 V210"/>
+  <path class="arrow" d="M560 272 V308"/>
+  <path class="arrow" d="M560 370 V406"/>
+  <path class="arrow" d="M682 437 C728 437 744 147 804 147"/>
+  <path class="arrow" d="M926 178 V214"/>
+  <path class="arrow" d="M926 276 V312"/>
+  <path class="arrow" d="M926 374 V410"/>
+  <path class="arrow" d="M804 343 C736 343 728 437 682 437"/>
+
+  <rect x="72" y="448" width="244" height="62" rx="8" fill="#ecfdf5" stroke="#0f766e" stroke-width="1.5"/>
+  <text class="primary text" x="96" y="485">Timeout / Retry</text>
+  <text class="small" x="96" y="503">Circuit breaker fallback</text>
+
+  <rect x="438" y="502" width="244" height="42" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text class="blue text" x="462" y="529">JSON / Kryo Serializer</text>
+</svg>
